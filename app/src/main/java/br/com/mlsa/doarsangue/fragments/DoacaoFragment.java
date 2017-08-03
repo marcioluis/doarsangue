@@ -3,6 +3,7 @@ package br.com.mlsa.doarsangue.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -63,12 +64,12 @@ public class DoacaoFragment extends Fragment {
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
+
+            LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+
+            recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(new DoacaoRecyclerViewAdapter(DummyDoacao.ITEMS, mListener));
+            recyclerView.addItemDecoration(new DividerItemDecoration(context, layoutManager.getOrientation() ));
         }
         return view;
     }
