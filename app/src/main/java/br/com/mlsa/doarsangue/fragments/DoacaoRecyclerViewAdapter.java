@@ -66,8 +66,8 @@ public class DoacaoRecyclerViewAdapter extends RecyclerView.Adapter<DoacaoRecycl
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mIdView = (TextView) view.findViewById(R.id.nomeRecebedor);
+            mContentView = (TextView) view.findViewById(R.id.localDoacao);
         }
 
         @Override

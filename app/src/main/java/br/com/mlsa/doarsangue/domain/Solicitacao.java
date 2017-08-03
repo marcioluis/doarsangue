@@ -1,5 +1,6 @@
 package br.com.mlsa.doarsangue.domain;
 
+import java.util.Date;
 import java.util.List;
 
 import br.com.mlsa.doarsangue.domain.enums.FatorRH;
@@ -18,6 +19,8 @@ public final class Solicitacao {
     private FatorRH fatorRH;
     private TipoSanguineo tipoSanguineo;
     private List<Pessoa> doadores;
+    private Pessoa solicitante;
+    private Date dataSolicitacao;
 
 
 }

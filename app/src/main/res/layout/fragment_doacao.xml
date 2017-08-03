@@ -5,14 +5,14 @@
     android:background="?android:attr/selectableItemBackground">
 
     <TextView
-        android:id="@+id/id"
+        android:id="@+id/nomeRecebedor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <TextView
-        android:id="@+id/content"
+        android:id="@+id/localDoacao"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
