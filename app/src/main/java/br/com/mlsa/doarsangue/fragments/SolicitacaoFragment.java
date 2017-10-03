@@ -23,10 +23,6 @@ import br.com.mlsa.doarsangue.fragments.dummysol.DummySolicitacao.DummySolicitac
  */
 public class SolicitacaoFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
     private OnSolicitacaoFragmentInteractionListener mListener;
 
     /**
@@ -36,23 +32,14 @@ public class SolicitacaoFragment extends Fragment {
     public SolicitacaoFragment() {
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static SolicitacaoFragment newInstance(int columnCount) {
+    public static SolicitacaoFragment newInstance() {
         SolicitacaoFragment fragment = new SolicitacaoFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
     }
 
     @Override
@@ -73,7 +60,6 @@ public class SolicitacaoFragment extends Fragment {
         }
         return view;
     }
-
 
     @Override
     public void onAttach(Context context) {
@@ -103,7 +89,6 @@ public class SolicitacaoFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnSolicitacaoFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onClickSolicitacaoItem(DummySolicitacaoItem item);
     }
 }

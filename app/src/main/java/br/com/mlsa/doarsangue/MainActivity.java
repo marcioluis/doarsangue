@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements OnDoacaoFragmentI
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return SolicitacaoFragment.newInstance(1);
+                    return SolicitacaoFragment.newInstance();
                 case 1:
                     return DoacaoFragment.newInstance(1);
                 case 2:
