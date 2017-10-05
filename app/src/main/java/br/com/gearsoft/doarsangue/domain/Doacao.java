@@ -1,4 +1,4 @@
-package br.com.mlsa.doarsangue.domain;
+package br.com.gearsoft.doarsangue.domain;
 
 import java.sql.Date;
 

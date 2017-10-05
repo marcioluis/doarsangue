@@ -1,10 +1,10 @@
-package br.com.mlsa.doarsangue.domain;
+package br.com.gearsoft.doarsangue.domain;
 
 import java.sql.Date;
 import java.util.List;
 
-import br.com.mlsa.doarsangue.domain.enums.FatorRH;
-import br.com.mlsa.doarsangue.domain.enums.TipoSanguineo;
+import br.com.gearsoft.doarsangue.domain.enums.FatorRH;
+import br.com.gearsoft.doarsangue.domain.enums.TipoSanguineo;
 
 /**
  * Created by marcio.arrosi on 17/07/2017.

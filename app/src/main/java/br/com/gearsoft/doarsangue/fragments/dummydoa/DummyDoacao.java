@@ -1,4 +1,4 @@
-package br.com.mlsa.doarsangue.fragments.dummydoa;
+package br.com.gearsoft.doarsangue.fragments.dummydoa;
 
 import java.util.ArrayList;
 import java.util.HashMap;

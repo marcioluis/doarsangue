@@ -1,4 +1,4 @@
-package br.com.mlsa.doarsangue;
+package br.com.gearsoft.doarsangue;
 
 public final class Constants {
     public static final int SUCCESS_RESULT = 0;

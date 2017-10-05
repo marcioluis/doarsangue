@@ -9,5 +9,5 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="br.com.mlsa.doarsangue.fragments.DoacaoFragment"
+    tools:context="br.com.gearsoft.doarsangue.fragments.DoacaoFragment"
     tools:listitem="@layout/fragment_doacao" />

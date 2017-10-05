@@ -1,4 +1,4 @@
-package br.com.mlsa.doarsangue;
+package br.com.gearsoft.doarsangue;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

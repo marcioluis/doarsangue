@@ -1,4 +1,4 @@
-package br.com.mlsa.doarsangue;
+package br.com.gearsoft.doarsangue;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,14 +19,16 @@ import android.view.View;
 import java.util.HashMap;
 import java.util.Map;
 
-import br.com.mlsa.doarsangue.fragments.DoacaoFragment;
-import br.com.mlsa.doarsangue.fragments.DoacaoFragment.OnDoacaoFragmentInteractionListener;
-import br.com.mlsa.doarsangue.fragments.PerfilFragment;
-import br.com.mlsa.doarsangue.fragments.PerfilFragment.OnPerfilFragmentInteractionListener;
-import br.com.mlsa.doarsangue.fragments.SolicitacaoFragment;
-import br.com.mlsa.doarsangue.fragments.SolicitacaoFragment.OnSolicitacaoFragmentInteractionListener;
-import br.com.mlsa.doarsangue.fragments.dummydoa.DummyDoacao;
-import br.com.mlsa.doarsangue.fragments.dummysol.DummySolicitacao;
+import br.com.gearsoft.doarsangue.fragments.DoacaoFragment;
+import br.com.gearsoft.doarsangue.fragments.DoacaoFragment.OnDoacaoFragmentInteractionListener;
+import br.com.gearsoft.doarsangue.fragments.PerfilFragment;
+import br.com.gearsoft.doarsangue.fragments.PerfilFragment.OnPerfilFragmentInteractionListener;
+import br.com.gearsoft.doarsangue.fragments.SolicitacaoFragment;
+import br.com.gearsoft.doarsangue.fragments.SolicitacaoFragment.OnSolicitacaoFragmentInteractionListener;
+import br.com.gearsoft.doarsangue.fragments.dummydoa.DummyDoacao;
+import br.com.gearsoft.doarsangue.services.SolicitacaoService;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements OnDoacaoFragmentInteractionListener, OnSolicitacaoFragmentInteractionListener, OnPerfilFragmentInteractionListener {
 
@@ -43,32 +45,41 @@ public class MainActivity extends AppCompatActivity implements OnDoacaoFragmentI
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    private ViewPager mViewPager;
+    @BindView(R.id.container)
+    ViewPager mViewPager;
+
+    @BindView(R.id.tabs)
+    TabLayout tabLayout;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         //Toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         // O Adapter que retorna os fragments de cada seção do pager
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up ViewPager com o adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         //Set up as tabs com o nosso pager
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SolicitacaoService.createSome();
+
                 Snackbar.make(view, "Deve ir para uma atividade de criação", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
@@ -103,8 +114,8 @@ public class MainActivity extends AppCompatActivity implements OnDoacaoFragmentI
     }
 
     @Override
-    public void onClickSolicitacaoItem(DummySolicitacao.DummySolicitacaoItem item) {
-        Log.d("CLICK", "onClickSolicitacaoItem: " +item.toString());
+    public void onClickSolicitacaoItem() {
+        Log.d("CLICK", "-------- onClickSolicitacaoItem ----------");
     }
 
     @Override
@@ -116,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements OnDoacaoFragmentI
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    static class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         private Map<Integer, String> secoes = new HashMap<>();
 
@@ -157,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements OnDoacaoFragmentI
                 case 2:
                     return secoes.get(position);
                 default:
-                    return null;
+                    return "";
             }
         }
     }

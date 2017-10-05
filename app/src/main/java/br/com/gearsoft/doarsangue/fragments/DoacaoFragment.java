@@ -1,19 +1,19 @@
-package br.com.mlsa.doarsangue.fragments;
+package br.com.gearsoft.doarsangue.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import br.com.mlsa.doarsangue.R;
-import br.com.mlsa.doarsangue.fragments.dummydoa.DummyDoacao;
-import br.com.mlsa.doarsangue.fragments.dummydoa.DummyDoacao.DummyDoacaoItem;
+import br.com.gearsoft.doarsangue.R;
+import br.com.gearsoft.doarsangue.adapter.DoacaoAdapter;
+import br.com.gearsoft.doarsangue.fragments.dummydoa.DummyDoacao;
+import br.com.gearsoft.doarsangue.fragments.dummydoa.DummyDoacao.DummyDoacaoItem;
 
 /**
  * A fragment representing a list of Items.
@@ -68,8 +68,8 @@ public class DoacaoFragment extends Fragment {
             LinearLayoutManager layoutManager = new LinearLayoutManager(context);
 
             recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setAdapter(new DoacaoRecyclerViewAdapter(DummyDoacao.ITEMS, mListener));
             recyclerView.addItemDecoration(new DividerItemDecoration(context, layoutManager.getOrientation() ));
+//            recyclerView.setAdapter(new DoacaoAdapter(DummyDoacao.ITEMS, mListener));
         }
         return view;
     }

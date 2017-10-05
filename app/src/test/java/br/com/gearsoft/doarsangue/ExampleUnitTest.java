@@ -1,4 +1,4 @@
-package br.com.mlsa.doarsangue;
+package br.com.gearsoft.doarsangue;
 
 import org.junit.Test;
 
