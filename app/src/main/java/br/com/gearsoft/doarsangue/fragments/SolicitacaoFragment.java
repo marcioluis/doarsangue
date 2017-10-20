@@ -6,15 +6,13 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.firebase.firestore.DocumentSnapshot;
-
 import br.com.gearsoft.doarsangue.R;
 import br.com.gearsoft.doarsangue.adapter.SolicitacaoAdapter;
+import br.com.gearsoft.doarsangue.domain.Solicitacao;
 import br.com.gearsoft.doarsangue.services.SolicitacaoService;
 
 /**
@@ -23,12 +21,7 @@ import br.com.gearsoft.doarsangue.services.SolicitacaoService;
  * Activities containing this fragment MUST implement the {@link OnSolicitacaoFragmentInteractionListener}
  * interface.
  */
-public class SolicitacaoFragment extends Fragment implements SolicitacaoAdapter.OnSolicitacaoSelectedListener {
-
-    @Override
-    public void onSolicitacaoSelected(DocumentSnapshot solicitacao) {
-        Log.d("SolicitacaoFragment", "********** onSolicitacaoSelected ************");
-    }
+public class SolicitacaoFragment extends Fragment {
 
     /**
      * This interface must be implemented by activities that contain this
@@ -41,11 +34,12 @@ public class SolicitacaoFragment extends Fragment implements SolicitacaoAdapter.
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnSolicitacaoFragmentInteractionListener {
-        void onClickSolicitacaoItem();
+        void onClickSolicitacaoItem(Solicitacao solicitacao);
     }
 
     private OnSolicitacaoFragmentInteractionListener mListener;
     private SolicitacaoAdapter mAdapter;
+    private SolicitacaoService mSolicitacaoService;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -75,28 +69,27 @@ public class SolicitacaoFragment extends Fragment implements SolicitacaoAdapter.
 
             LinearLayoutManager layoutManager = new LinearLayoutManager(context);
 
-            mAdapter = new SolicitacaoAdapter(SolicitacaoService.getSolicitacoes(), this);
+            mAdapter = new SolicitacaoAdapter(mListener);
 
             recyclerView.addItemDecoration(new DividerItemDecoration(context, layoutManager.getOrientation()));
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(mAdapter);
+            // Cria o serviço
+            mSolicitacaoService = SolicitacaoService.getInstance(mAdapter, this.getActivity());
+            mSolicitacaoService.getSolicitacoes();
         }
+
         return view;
     }
 
-    // Start listening for Firestore updates
     @Override
     public void onStart() {
         super.onStart();
-        if(mAdapter != null)
-            mAdapter.startListening();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        if(mAdapter != null)
-            mAdapter.stopListening();
     }
 
     @Override

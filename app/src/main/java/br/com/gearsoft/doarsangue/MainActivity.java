@@ -19,6 +19,7 @@ import android.view.View;
 import java.util.HashMap;
 import java.util.Map;
 
+import br.com.gearsoft.doarsangue.domain.Solicitacao;
 import br.com.gearsoft.doarsangue.fragments.DoacaoFragment;
 import br.com.gearsoft.doarsangue.fragments.DoacaoFragment.OnDoacaoFragmentInteractionListener;
 import br.com.gearsoft.doarsangue.fragments.PerfilFragment;
@@ -30,7 +31,7 @@ import br.com.gearsoft.doarsangue.services.SolicitacaoService;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements OnDoacaoFragmentInteractionListener, OnSolicitacaoFragmentInteractionListener, OnPerfilFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements OnSolicitacaoFragmentInteractionListener, OnDoacaoFragmentInteractionListener, OnPerfilFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -114,13 +115,14 @@ public class MainActivity extends AppCompatActivity implements OnDoacaoFragmentI
     }
 
     @Override
-    public void onClickSolicitacaoItem() {
-        Log.d("CLICK", "-------- onClickSolicitacaoItem ----------");
+    public void onFragmentInteraction(Uri uri) {
+        Log.d("CLICK", "onClickPerfil");
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
-        Log.d("CLICK", "onClickPerfil");
+    public void onClickSolicitacaoItem(Solicitacao solicitacao) {
+        Log.d("CLICK", "onClickSolicitacaoItem: " +solicitacao.toString());
+
     }
 
     /**

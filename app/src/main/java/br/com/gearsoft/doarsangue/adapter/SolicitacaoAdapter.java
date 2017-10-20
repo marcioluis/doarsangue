@@ -7,39 +7,53 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.Query;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.gearsoft.doarsangue.R;
 import br.com.gearsoft.doarsangue.domain.Solicitacao;
+import br.com.gearsoft.doarsangue.fragments.SolicitacaoFragment.OnSolicitacaoFragmentInteractionListener;
+import br.com.gearsoft.doarsangue.services.SolicitacaoService;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SolicitacaoAdapter extends FirestoreAdapter<SolicitacaoAdapter.ViewHolder> {
+public class SolicitacaoAdapter extends RecyclerView.Adapter<SolicitacaoAdapter.SolicitacaoViewHolder> implements SolicitacaoService.OnSolicitacaoListener {
 
-    public interface OnSolicitacaoSelectedListener{
-        void onSolicitacaoSelected(DocumentSnapshot solicitacao);
+    private OnSolicitacaoFragmentInteractionListener mListener;
+    private List<Solicitacao> mSolicitacoes = new ArrayList<>();
+
+    public SolicitacaoAdapter(OnSolicitacaoFragmentInteractionListener mListener) {
+        this.mListener = mListener;
     }
 
-    private OnSolicitacaoSelectedListener mSolicitacaoSelectedListener;
-
-    public SolicitacaoAdapter(Query query, OnSolicitacaoSelectedListener mSolicitacaoSelectedListener) {
-        super(query);
-        this.mSolicitacaoSelectedListener = mSolicitacaoSelectedListener;
+    public SolicitacaoAdapter(List<Solicitacao> solicitacoes, OnSolicitacaoFragmentInteractionListener listener) {
+        this.mListener = listener;
+        this.mSolicitacoes = solicitacoes;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SolicitacaoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new ViewHolder(inflater.inflate(R.layout.fragment_solicitacao, parent, false));
+        return new SolicitacaoViewHolder(inflater.inflate(R.layout.fragment_solicitacao, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.bind(getSnapshot(position), mSolicitacaoSelectedListener);
+    public void onBindViewHolder(final SolicitacaoViewHolder holder, int position) {
+        holder.bind(this.mSolicitacoes.get(position), this.mListener);
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public int getItemCount() {
+        return this.mSolicitacoes.size();
+    }
+
+    @Override
+    public void onSolCompleted(List<Solicitacao> solicitacao) {
+        this.mSolicitacoes = solicitacao;
+        this.notifyDataSetChanged();
+    }
+
+    static class SolicitacaoViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.nomeRecebedor)
         TextView mIdView;
@@ -47,13 +61,12 @@ public class SolicitacaoAdapter extends FirestoreAdapter<SolicitacaoAdapter.View
         @BindView(R.id.localDoacao)
         TextView mContentView;
 
-        public ViewHolder(View view) {
+        public SolicitacaoViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }
 
-        public void bind(final DocumentSnapshot snapshot, final OnSolicitacaoSelectedListener listener) {
-            final Solicitacao solicitacao = snapshot.toObject(Solicitacao.class);
+        public void bind(final Solicitacao solicitacao, final OnSolicitacaoFragmentInteractionListener listener) {
             Resources resources = itemView.getResources();
 
             mIdView.setText(solicitacao.getNomeRecebedor());
@@ -63,7 +76,7 @@ public class SolicitacaoAdapter extends FirestoreAdapter<SolicitacaoAdapter.View
                 @Override
                 public void onClick(View view) {
                     if (listener != null) {
-                        listener.onSolicitacaoSelected(snapshot);
+                        listener.onClickSolicitacaoItem(solicitacao);
                     }
                 }
             });
