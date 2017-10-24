@@ -17,7 +17,7 @@ import br.com.gearsoft.doarsangue.services.SolicitacaoService;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SolicitacaoAdapter extends RecyclerView.Adapter<SolicitacaoAdapter.SolicitacaoViewHolder> implements SolicitacaoService.OnSolicitacaoListener {
+public final class SolicitacaoAdapter extends RecyclerView.Adapter<SolicitacaoAdapter.SolicitacaoViewHolder> implements SolicitacaoService.OnSolicitacaoListener {
 
     private OnSolicitacaoFragmentInteractionListener mListener;
     private List<Solicitacao> mSolicitacoes = new ArrayList<>();
@@ -48,7 +48,7 @@ public class SolicitacaoAdapter extends RecyclerView.Adapter<SolicitacaoAdapter.
     }
 
     @Override
-    public void onSolCompleted(List<Solicitacao> solicitacao) {
+    public void onGetSolicitacoes(List<Solicitacao> solicitacao) {
         this.mSolicitacoes = solicitacao;
         this.notifyDataSetChanged();
     }
@@ -69,8 +69,8 @@ public class SolicitacaoAdapter extends RecyclerView.Adapter<SolicitacaoAdapter.
         public void bind(final Solicitacao solicitacao, final OnSolicitacaoFragmentInteractionListener listener) {
             Resources resources = itemView.getResources();
 
-            mIdView.setText(solicitacao.getNomeRecebedor());
-            mContentView.setText(solicitacao.getNomeRecebedor());
+            mIdView.setText(solicitacao.getNomeRecebedor() + "-" + solicitacao.getDataSolicitacao());
+            mContentView.setText("UU: "+Boolean.toString(solicitacao.isUrgente()));
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

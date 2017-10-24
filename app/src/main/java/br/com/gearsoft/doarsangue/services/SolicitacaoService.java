@@ -15,6 +15,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -27,25 +28,27 @@ import br.com.gearsoft.doarsangue.domain.Solicitacao;
 
 public final class SolicitacaoService {
 
-    private boolean isConfigured;
-
     /**
      * listeners das acoes de interacao com o firestore
      */
     public interface OnSolicitacaoListener{
-        void onSolCompleted(List<Solicitacao> solicitacao);
+
+        void onGetSolicitacoes(List<Solicitacao> solicitacoes);
     }
 
+    private static final String TAG = SolicitacaoService.class.getName();
     private static final String collection_name = "solicitacoes";
-    private static final String TAG = "SolicitacaoService";
     private static SolicitacaoService solicitacaoService;
-    private static FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    private OnSolicitacaoListener mSolListener;
+    private boolean isConfigured;
+    private OnSolicitacaoListener mListener;
     private Activity mActivity;
-    private ArrayList<Solicitacao> sols = new ArrayList<Solicitacao>();
+    private FirebaseFirestore db;
+    private ArrayList<Solicitacao> mSolicitacoes;
 
     private SolicitacaoService() {
+        db = FirebaseFirestore.getInstance();
+        mSolicitacoes = new ArrayList<>();
     }
 
     public static SolicitacaoService getInstance(RecyclerView.Adapter adapter, Activity activity) {
@@ -53,16 +56,16 @@ public final class SolicitacaoService {
             solicitacaoService = new SolicitacaoService();
         }
 
-        solicitacaoService.mActivity = activity;
         if (adapter instanceof OnSolicitacaoListener) {
-            solicitacaoService.mSolListener = (OnSolicitacaoListener) adapter;
+            solicitacaoService.mActivity = activity;
+            solicitacaoService.mListener = (OnSolicitacaoListener) adapter;
             solicitacaoService.isConfigured = true;
+            return solicitacaoService;
         } else {
             solicitacaoService.isConfigured = false;
             throw new RuntimeException(adapter.toString() + " must implement OnSolicitacaoListener");
         }
 
-        return solicitacaoService;
     }
 
     public static SolicitacaoService getInstance(){
@@ -71,34 +74,48 @@ public final class SolicitacaoService {
         return solicitacaoService;
     }
 
+    /**
+     * Pega todas as solicitações que não estão expiradas.
+     * Uma solicitação é considerada expirada quando a data de expiração dela for menor que
+     * o dia de hoje.
+      */
     public void getSolicitacoes() {
-        Calendar utc = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 
-        if (!sols.isEmpty()) {
-            mSolListener.onSolCompleted(sols);
-            return;
-        }
+        if (mSolicitacoes.isEmpty()) {
 
-//        todas as urgentes e depois todas as não urgentes; ambas não expiradas
-        db.collection(SolicitacaoService.collection_name)
-                .get()
-                .addOnCompleteListener(this.mActivity, new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot doc : task.getResult()) {
-                                Solicitacao solicitacao = doc.toObject(Solicitacao.class);
-                                sols.add(solicitacao);
+            Calendar utc = Calendar.getInstance();
+            // trunc da data
+            utc.set(Calendar.HOUR_OF_DAY, 0);
+            utc.set(Calendar.MINUTE, 0);
+            utc.set(Calendar.SECOND, 0);
+            utc.set(Calendar.MILLISECOND, 0);
+            Date dataHoje = utc.getTime();
+            Log.d(TAG, "Data atual UTC: " + dataHoje.toString());
+
+            db.collection(collection_name)
+                    .whereGreaterThanOrEqualTo(Solicitacao.field_data_expiracao, dataHoje)
+                    .get()
+                    .addOnCompleteListener(mActivity, new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (DocumentSnapshot doc : task.getResult()) {
+                                    Solicitacao solicitacao = doc.toObject(Solicitacao.class);
+                                    mSolicitacoes.add(solicitacao);
+                                }
+                                Collections.sort(mSolicitacoes);
+                                mListener.onGetSolicitacoes(mSolicitacoes);
+                            }else {
+                                Log.e(TAG, "Erro ao consultar solicitações", task.getException());
                             }
-                            mSolListener.onSolCompleted(sols);
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
                         }
-                    }
-                });
+                    });
+        }else {
+            mListener.onGetSolicitacoes(mSolicitacoes);
+        }
     }
 
-    public static void createSome() {
+    public void createSome() {
         Calendar calendar = Calendar.getInstance();
         Date now = calendar.getTime();
 

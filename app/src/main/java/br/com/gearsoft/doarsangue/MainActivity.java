@@ -79,8 +79,6 @@ public class MainActivity extends AppCompatActivity implements OnSolicitacaoFrag
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SolicitacaoService.createSome();
-
                 Snackbar.make(view, "Deve ir para uma atividade de criação", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }

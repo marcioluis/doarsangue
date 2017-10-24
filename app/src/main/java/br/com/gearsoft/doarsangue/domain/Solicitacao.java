@@ -1,8 +1,10 @@
 package br.com.gearsoft.doarsangue.domain;
 
+import android.support.annotation.NonNull;
 import android.text.method.DateTimeKeyListener;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -13,10 +15,11 @@ import br.com.gearsoft.doarsangue.domain.enums.TipoSanguineo;
 /**
  * Created by marcio.arrosi on 17/07/2017.
  */
-public final class Solicitacao {
+public final class Solicitacao implements Comparable<Solicitacao>{
 
     public static final String field_data_expiracao = "dataExpiracao";
     public static final String field_urgente = "urgente";
+    public static final String field_data_solicitacao = "dataSolicitacao";
 
     private String id;
     private boolean urgente;
@@ -139,6 +142,18 @@ public final class Solicitacao {
         this.dataSolicitacao = dataSolicitacao;
     }
 
+    @Override
+    public int compareTo(@NonNull Solicitacao o) {
+        int result = Boolean.compare(urgente, o.urgente) *-1;// inverte a ordem
+        if (result != 0) {
+            return result;
+        }
+        result = dataSolicitacao.compareTo(o.dataSolicitacao);
+        if (result != 0) {
+            return result;
+        }
+        return 0;
+    }
 }
 /**
  * O presidente da Companhia, xxxxxxxxxxx, solicita doadores de sangue, de qualquer tipo para sua neta recém-nascida e que está internada na UTI Neonatal do Hospital Moinhos de Vento, xxxxxxxxx.
