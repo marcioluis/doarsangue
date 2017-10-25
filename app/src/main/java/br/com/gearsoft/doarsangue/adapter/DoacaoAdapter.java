@@ -1,57 +1,73 @@
 package br.com.gearsoft.doarsangue.adapter;
 
+import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.Query;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.gearsoft.doarsangue.R;
-import br.com.gearsoft.doarsangue.domain.Solicitacao;
-import br.com.gearsoft.doarsangue.fragments.DoacaoFragment.OnDoacaoFragmentInteractionListener;
-import br.com.gearsoft.doarsangue.fragments.dummydoa.DummyDoacao.DummyDoacaoItem;
+import br.com.gearsoft.doarsangue.domain.Doacao;
+import br.com.gearsoft.doarsangue.fragments.DoacaoFragment.OnDoacaoInteractionListener;
+import br.com.gearsoft.doarsangue.services.DoacaoService.OnDoacaoServiceListener;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-public class DoacaoAdapter extends FirestoreAdapter<DoacaoAdapter.ViewHolder> {
+public class DoacaoAdapter extends RecyclerView.Adapter<DoacaoAdapter.DoacaoViewHolder> implements OnDoacaoServiceListener{
 
-    public interface OnDoacaoSelectedListener{
-        void onDoacaoSelected(DocumentSnapshot doacao);
-    }
+    private final OnDoacaoInteractionListener mListener;
+    private List<Doacao> doacoes = new ArrayList<>();
 
-    private OnDoacaoSelectedListener mDoacaoSelectedListener;
-
-    public DoacaoAdapter(Query query, OnDoacaoSelectedListener mDoacaoSelectedListener) {
-        super(query);
-        this.mDoacaoSelectedListener = mDoacaoSelectedListener;
+    public DoacaoAdapter(OnDoacaoInteractionListener mListener) {
+        this.mListener = mListener;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public DoacaoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new ViewHolder(inflater.inflate(R.layout.fragment_doacao, parent, false));
+        return new DoacaoViewHolder(inflater.inflate(R.layout.fragment_doacao, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.bind(getSnapshot(position), mDoacaoSelectedListener);
+    public void onBindViewHolder(final DoacaoViewHolder holder, int position) {
+        holder.bind(doacoes.get(position), mListener);
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public DummyDoacaoItem mItem;
+    @Override
+    public int getItemCount() {
+        return doacoes.size();
+    }
 
-        public ViewHolder(View view) {
+    static class DoacaoViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.nomeRecebedor)
+        TextView mIdView;
+        @BindView(R.id.localDoacao)
+        TextView mContentView;
+
+        public DoacaoViewHolder(View view) {
             super(view);
-            mView = view;
-            mIdView = (TextView) view.findViewById(R.id.nomeRecebedor);
-            mContentView = (TextView) view.findViewById(R.id.localDoacao);
+            ButterKnife.bind(this, view);
         }
 
-        public void bind(final DocumentSnapshot snapshot, final OnDoacaoSelectedListener listener){
+        public void bind(final Doacao doacao, final OnDoacaoInteractionListener listener) {
+            Resources resources = itemView.getResources();
+
+            mIdView.setText(doacao.getLocalDoacao());
+            mContentView.setText(doacao.getDataDoacao().toString());
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        listener.onClickDoacaoItem(doacao);
+                    }
+                }
+            });
         }
 
         @Override

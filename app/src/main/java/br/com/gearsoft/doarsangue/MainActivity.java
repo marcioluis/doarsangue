@@ -19,19 +19,17 @@ import android.view.View;
 import java.util.HashMap;
 import java.util.Map;
 
+import br.com.gearsoft.doarsangue.domain.Doacao;
 import br.com.gearsoft.doarsangue.domain.Solicitacao;
 import br.com.gearsoft.doarsangue.fragments.DoacaoFragment;
-import br.com.gearsoft.doarsangue.fragments.DoacaoFragment.OnDoacaoFragmentInteractionListener;
+import br.com.gearsoft.doarsangue.fragments.DoacaoFragment.OnDoacaoInteractionListener;
 import br.com.gearsoft.doarsangue.fragments.PerfilFragment;
-import br.com.gearsoft.doarsangue.fragments.PerfilFragment.OnPerfilFragmentInteractionListener;
 import br.com.gearsoft.doarsangue.fragments.SolicitacaoFragment;
-import br.com.gearsoft.doarsangue.fragments.SolicitacaoFragment.OnSolicitacaoFragmentInteractionListener;
-import br.com.gearsoft.doarsangue.fragments.dummydoa.DummyDoacao;
-import br.com.gearsoft.doarsangue.services.SolicitacaoService;
+import br.com.gearsoft.doarsangue.fragments.SolicitacaoFragment.OnSolicitacaoInteractionListener;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements OnSolicitacaoFragmentInteractionListener, OnDoacaoFragmentInteractionListener, OnPerfilFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements OnSolicitacaoInteractionListener, OnDoacaoInteractionListener, PerfilFragment.OnPerfilInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -108,8 +106,8 @@ public class MainActivity extends AppCompatActivity implements OnSolicitacaoFrag
     }
 
     @Override
-    public void onClickDoacaoItem(DummyDoacao.DummyDoacaoItem item) {
-        Log.d("CLICK", "onClickDoacaoItem: " +item.toString());
+    public void onClickDoacaoItem(Doacao doacao) {
+        Log.d("CLICK", "onClickDoacaoItem: " + doacao.toString());
     }
 
     @Override
@@ -145,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements OnSolicitacaoFrag
                 case 0:
                     return SolicitacaoFragment.newInstance();
                 case 1:
-                    return DoacaoFragment.newInstance(1);
+                    return DoacaoFragment.newInstance();
                 case 2:
                     return PerfilFragment.newInstance(null, null);
                 default:

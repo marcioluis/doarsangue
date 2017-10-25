@@ -1,13 +1,8 @@
 package br.com.gearsoft.doarsangue.domain;
 
 import android.support.annotation.NonNull;
-import android.text.method.DateTimeKeyListener;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 import br.com.gearsoft.doarsangue.domain.enums.FatorRH;
 import br.com.gearsoft.doarsangue.domain.enums.TipoSanguineo;

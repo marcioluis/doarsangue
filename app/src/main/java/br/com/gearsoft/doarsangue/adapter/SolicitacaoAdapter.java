@@ -12,23 +12,18 @@ import java.util.List;
 
 import br.com.gearsoft.doarsangue.R;
 import br.com.gearsoft.doarsangue.domain.Solicitacao;
-import br.com.gearsoft.doarsangue.fragments.SolicitacaoFragment.OnSolicitacaoFragmentInteractionListener;
-import br.com.gearsoft.doarsangue.services.SolicitacaoService;
+import br.com.gearsoft.doarsangue.fragments.SolicitacaoFragment.OnSolicitacaoInteractionListener;
+import br.com.gearsoft.doarsangue.services.SolicitacaoService.OnSolicitacaoServiceListener;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public final class SolicitacaoAdapter extends RecyclerView.Adapter<SolicitacaoAdapter.SolicitacaoViewHolder> implements SolicitacaoService.OnSolicitacaoListener {
+public final class SolicitacaoAdapter extends RecyclerView.Adapter<SolicitacaoAdapter.SolicitacaoViewHolder> implements OnSolicitacaoServiceListener {
 
-    private OnSolicitacaoFragmentInteractionListener mListener;
+    private final OnSolicitacaoInteractionListener mListener;
     private List<Solicitacao> mSolicitacoes = new ArrayList<>();
 
-    public SolicitacaoAdapter(OnSolicitacaoFragmentInteractionListener mListener) {
+    public SolicitacaoAdapter(OnSolicitacaoInteractionListener mListener) {
         this.mListener = mListener;
-    }
-
-    public SolicitacaoAdapter(List<Solicitacao> solicitacoes, OnSolicitacaoFragmentInteractionListener listener) {
-        this.mListener = listener;
-        this.mSolicitacoes = solicitacoes;
     }
 
     @Override
@@ -66,7 +61,7 @@ public final class SolicitacaoAdapter extends RecyclerView.Adapter<SolicitacaoAd
             ButterKnife.bind(this, view);
         }
 
-        public void bind(final Solicitacao solicitacao, final OnSolicitacaoFragmentInteractionListener listener) {
+        public void bind(final Solicitacao solicitacao, final OnSolicitacaoInteractionListener listener) {
             Resources resources = itemView.getResources();
 
             mIdView.setText(solicitacao.getNomeRecebedor() + "-" + solicitacao.getDataSolicitacao());

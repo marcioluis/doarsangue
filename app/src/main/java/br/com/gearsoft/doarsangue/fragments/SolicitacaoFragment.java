@@ -18,7 +18,7 @@ import br.com.gearsoft.doarsangue.services.SolicitacaoService;
 /**
  * A fragment representing a list of Items.
  * <p/>
- * Activities containing this fragment MUST implement the {@link OnSolicitacaoFragmentInteractionListener}
+ * Activities containing this fragment MUST implement the {@link OnSolicitacaoInteractionListener}
  * interface.
  */
 public class SolicitacaoFragment extends Fragment {
@@ -33,11 +33,11 @@ public class SolicitacaoFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnSolicitacaoFragmentInteractionListener {
+    public interface OnSolicitacaoInteractionListener {
         void onClickSolicitacaoItem(Solicitacao solicitacao);
     }
 
-    private OnSolicitacaoFragmentInteractionListener mListener;
+    private OnSolicitacaoInteractionListener mListener;
     private SolicitacaoAdapter mAdapter;
     private SolicitacaoService mSolicitacaoService;
 
@@ -53,6 +53,17 @@ public class SolicitacaoFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnSolicitacaoInteractionListener) {
+            mListener = (OnSolicitacaoInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement " + OnSolicitacaoInteractionListener.class.getCanonicalName());
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
@@ -64,18 +75,18 @@ public class SolicitacaoFragment extends Fragment {
 
         // Set the mAdapter
         if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-
-            LinearLayoutManager layoutManager = new LinearLayoutManager(context);
 
             mAdapter = new SolicitacaoAdapter(mListener);
+            mSolicitacaoService = SolicitacaoService.getInstance(mAdapter, this.getActivity());
 
+            Context context = view.getContext();
+            LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+
+            RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.addItemDecoration(new DividerItemDecoration(context, layoutManager.getOrientation()));
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(mAdapter);
-            // Cria o serviço
-            mSolicitacaoService = SolicitacaoService.getInstance(mAdapter, this.getActivity());
+
             mSolicitacaoService.getSolicitacoes();
         }
 
@@ -83,30 +94,11 @@ public class SolicitacaoFragment extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnSolicitacaoFragmentInteractionListener) {
-            mListener = (OnSolicitacaoFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnSolicitacaoFragmentInteractionListener");
-        }
-    }
-
-    @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        mSolicitacaoService = null;
+        mAdapter = null;
     }
 
 }

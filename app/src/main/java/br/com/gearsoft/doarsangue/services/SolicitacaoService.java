@@ -18,7 +18,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import br.com.gearsoft.doarsangue.domain.Solicitacao;
 
@@ -31,17 +30,16 @@ public final class SolicitacaoService {
     /**
      * listeners das acoes de interacao com o firestore
      */
-    public interface OnSolicitacaoListener{
-
+    public interface OnSolicitacaoServiceListener {
         void onGetSolicitacoes(List<Solicitacao> solicitacoes);
     }
 
-    private static final String TAG = SolicitacaoService.class.getName();
+    private static final String TAG = SolicitacaoService.class.getSimpleName();
     private static final String collection_name = "solicitacoes";
     private static SolicitacaoService solicitacaoService;
 
     private boolean isConfigured;
-    private OnSolicitacaoListener mListener;
+    private OnSolicitacaoServiceListener mListener;
     private Activity mActivity;
     private FirebaseFirestore db;
     private ArrayList<Solicitacao> mSolicitacoes;
@@ -51,21 +49,14 @@ public final class SolicitacaoService {
         mSolicitacoes = new ArrayList<>();
     }
 
-    public static SolicitacaoService getInstance(RecyclerView.Adapter adapter, Activity activity) {
+    public static SolicitacaoService getInstance(OnSolicitacaoServiceListener listener, Activity activity) {
         if (solicitacaoService == null) {
             solicitacaoService = new SolicitacaoService();
         }
-
-        if (adapter instanceof OnSolicitacaoListener) {
-            solicitacaoService.mActivity = activity;
-            solicitacaoService.mListener = (OnSolicitacaoListener) adapter;
-            solicitacaoService.isConfigured = true;
-            return solicitacaoService;
-        } else {
-            solicitacaoService.isConfigured = false;
-            throw new RuntimeException(adapter.toString() + " must implement OnSolicitacaoListener");
-        }
-
+        solicitacaoService.mActivity = activity;
+        solicitacaoService.mListener = listener;
+        solicitacaoService.isConfigured = true;
+        return solicitacaoService;
     }
 
     public static SolicitacaoService getInstance(){

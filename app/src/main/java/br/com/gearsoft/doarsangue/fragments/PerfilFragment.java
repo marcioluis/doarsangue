@@ -13,7 +13,7 @@ import br.com.gearsoft.doarsangue.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link OnPerfilFragmentInteractionListener} interface
+ * {@link OnPerfilInteractionListener} interface
  * to handle interaction events.
  * Use the {@link PerfilFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -28,7 +28,7 @@ public class PerfilFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private OnPerfilFragmentInteractionListener mListener;
+    private OnPerfilInteractionListener mListener;
 
     public PerfilFragment() {
         // Required empty public constructor
@@ -78,11 +78,11 @@ public class PerfilFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnPerfilFragmentInteractionListener) {
-            mListener = (OnPerfilFragmentInteractionListener) context;
+        if (context instanceof OnPerfilInteractionListener) {
+            mListener = (OnPerfilInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnPerfilFragmentInteractionListener");
+                    + " must implement OnPerfilInteractionListener");
         }
     }
 
@@ -102,7 +102,7 @@ public class PerfilFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnPerfilFragmentInteractionListener {
+    public interface OnPerfilInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
