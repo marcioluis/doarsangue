@@ -37,9 +37,4 @@ public final class DoacaoService {
         return doacaoService;
     }
 
-    public static DoacaoService getInstance() {
-        if(doacaoService == null || !doacaoService.isConfigured)
-            throw new RuntimeException("Serviço não está configurado");
-        return doacaoService;
-    }
 }

@@ -59,12 +59,6 @@ public final class SolicitacaoService {
         return solicitacaoService;
     }
 
-    public static SolicitacaoService getInstance(){
-        if(solicitacaoService == null || !solicitacaoService.isConfigured)
-            throw new RuntimeException("Serviço não está configurado");
-        return solicitacaoService;
-    }
-
     /**
      * Pega todas as solicitações que não estão expiradas.
      * Uma solicitação é considerada expirada quando a data de expiração dela for menor que
