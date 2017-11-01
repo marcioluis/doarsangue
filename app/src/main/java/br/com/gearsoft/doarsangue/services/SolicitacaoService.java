@@ -78,7 +78,7 @@ public final class SolicitacaoService {
             Log.d(TAG, "Data atual UTC: " + dataHoje.toString());
 
             db.collection(collection_name)
-                    .whereGreaterThanOrEqualTo(Solicitacao.field_data_expiracao, dataHoje)
+//                    .whereGreaterThanOrEqualTo(Solicitacao.field_data_expiracao, dataHoje)
                     .get()
                     .addOnCompleteListener(mActivity, new OnCompleteListener<QuerySnapshot>() {
                         @Override
