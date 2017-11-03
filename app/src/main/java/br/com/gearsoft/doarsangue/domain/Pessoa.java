@@ -1,10 +1,14 @@
 package br.com.gearsoft.doarsangue.domain;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+
 import com.google.firebase.firestore.Exclude;
 
 import java.util.Date;
 import java.util.List;
 
+import br.com.gearsoft.doarsangue.BR;
 import br.com.gearsoft.doarsangue.domain.enums.FatorRH;
 import br.com.gearsoft.doarsangue.domain.enums.TipoSanguineo;
 
@@ -12,7 +16,7 @@ import br.com.gearsoft.doarsangue.domain.enums.TipoSanguineo;
  * Created by marcio.arrosi on 17/07/2017.
  */
 
-public class Pessoa {
+public class Pessoa extends BaseObservable {
 
     private FatorRH fatorRH;
     private TipoSanguineo tipoSanguineo;
@@ -39,12 +43,14 @@ public class Pessoa {
         this.tipoSanguineo = tipoSanguineo;
     }
 
+    @Bindable
     public String getPrimeiroNome() {
         return primeiroNome;
     }
 
     public void setPrimeiroNome(String primeiroNome) {
         this.primeiroNome = primeiroNome;
+        notifyPropertyChanged(BR.primeiroNome);
     }
 
     public String getSegundoNome() {

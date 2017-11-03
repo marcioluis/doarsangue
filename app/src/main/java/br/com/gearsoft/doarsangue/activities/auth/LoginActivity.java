@@ -129,11 +129,11 @@ public class LoginActivity extends AppCompatActivity {
                         )
                         .setIsSmartLockEnabled(!BuildConfig.DEBUG)// desabilita em dev habilita em prod
                         .build();
-        startActivityForResult(intent, RC_SIGN_IN);
         mIsSigningIn = true;
+        startActivityForResult(intent, RC_SIGN_IN);
     }
 
-    public void doLogin(View view) {
+    public void onLoginButtonPressed(View view) {
         startSignIn();
     }
 }

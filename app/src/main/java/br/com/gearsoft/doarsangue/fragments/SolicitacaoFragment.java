@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import br.com.gearsoft.doarsangue.R;
-import br.com.gearsoft.doarsangue.adapter.SolicitacaoAdapter;
+import br.com.gearsoft.doarsangue.adapters.SolicitacaoAdapter;
 import br.com.gearsoft.doarsangue.domain.Solicitacao;
 import br.com.gearsoft.doarsangue.services.SolicitacaoService;
 

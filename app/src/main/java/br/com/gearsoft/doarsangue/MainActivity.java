@@ -4,10 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -196,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements OnSolicitacaoInte
                 case 1:
                     return DoacaoFragment.newInstance();
                 case 2:
-                    return PerfilFragment.newInstance(null, null);
+                    return PerfilFragment.newInstance();
                 default:
                     return null;
             }

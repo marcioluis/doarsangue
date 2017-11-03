@@ -17,7 +17,6 @@ public final class DoacaoService {
     }
 
     private static DoacaoService doacaoService;
-
     private OnDoacaoServiceListener mListener;
     private Activity mActivity;
     private boolean isConfigured;

@@ -1,13 +1,39 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="br.com.gearsoft.doarsangue.fragments.PerfilFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="pessoa"
+            type="br.com.gearsoft.doarsangue.domain.Pessoa" />
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+        <variable
+            name="back"
+            type="br.com.gearsoft.doarsangue.fragments.PerfilFragment" />
+    </data>
+    <LinearLayout
+        tools:context="br.com.gearsoft.doarsangue.fragments.PerfilFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical" >
 
-</FrameLayout>
+        <Button
+            android:layout_width="226dp"
+            android:layout_height="108dp"
+            android:onClick="@{back::onPrintPressed}"
+            android:text="Do Log" />
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@={pessoa.primeiroNome}" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@={pessoa.primeiroNome}"
+            tools:text="Marcio Teste Binding"/>
+
+    </LinearLayout>
+</layout>

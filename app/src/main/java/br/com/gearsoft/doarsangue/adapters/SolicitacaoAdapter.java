@@ -1,4 +1,4 @@
-package br.com.gearsoft.doarsangue.adapter;
+package br.com.gearsoft.doarsangue.adapters;
 
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
