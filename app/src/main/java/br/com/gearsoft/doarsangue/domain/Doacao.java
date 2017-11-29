@@ -18,7 +18,7 @@ public final class Doacao {
     private Date dataDoacao;
     private FatorRH fatorRH;
     private TipoSanguineo tipoSanguineo;
-    private Pessoa doador;
+    private Person doador;
 
     public String getId() {
         return id;
@@ -68,11 +68,11 @@ public final class Doacao {
         this.tipoSanguineo = tipoSanguineo;
     }
 
-    public Pessoa getDoador() {
+    public Person getDoador() {
         return doador;
     }
 
-    public void setDoador(Pessoa doador) {
+    public void setDoador(Person doador) {
         this.doador = doador;
     }
 }

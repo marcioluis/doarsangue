@@ -24,7 +24,7 @@ public final class Solicitacao implements Comparable<Solicitacao>{
     private FatorRH fatorRH;
     private TipoSanguineo tipoSanguineo;
     private String observacao;
-    private Pessoa solicitante;
+    private Person solicitante;
     private Date dataSolicitacao;
     private Date dataExpiracao;
     private int qtdDoadores;
@@ -121,11 +121,11 @@ public final class Solicitacao implements Comparable<Solicitacao>{
         this.observacao = observacao;
     }
 
-    public Pessoa getSolicitante() {
+    public Person getSolicitante() {
         return solicitante;
     }
 
-    public void setSolicitante(Pessoa solicitante) {
+    public void setSolicitante(Person solicitante) {
         this.solicitante = solicitante;
     }
 

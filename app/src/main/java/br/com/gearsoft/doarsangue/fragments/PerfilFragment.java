@@ -2,8 +2,6 @@ package br.com.gearsoft.doarsangue.fragments;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -16,7 +14,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 import br.com.gearsoft.doarsangue.R;
 import br.com.gearsoft.doarsangue.databinding.FragmentPerfilBinding;
-import br.com.gearsoft.doarsangue.domain.Pessoa;
+import br.com.gearsoft.doarsangue.domain.Person;
+import br.com.gearsoft.doarsangue.services.PersonService;
+import br.com.gearsoft.doarsangue.services.PersonService.PersonServiceListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,7 +27,13 @@ import br.com.gearsoft.doarsangue.domain.Pessoa;
  * create an instance of this fragment.
  */
 
-public class PerfilFragment extends Fragment {
+public class PerfilFragment extends Fragment implements PersonServiceListener {
+
+    @Override
+    public void onSearchPerson(final Person person) {
+        mPerson.setNome(person.getNome());
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -39,23 +45,20 @@ public class PerfilFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnPerfilInteractionListener {
-        void onFragmentInteraction(Uri uri);
+
     }
 
     private OnPerfilInteractionListener mListener;
     private FirebaseUser mUser;
-    private Pessoa mPessoa;
+    private Person mPerson;
+    private PersonService mPersonService;
 
+    // Required empty public constructor
     public PerfilFragment() {
-        // Required empty public constructor
     }
 
     public static PerfilFragment newInstance() {
         return new PerfilFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
     }
 
     @Override
@@ -63,18 +66,18 @@ public class PerfilFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         mUser = FirebaseAuth.getInstance().getCurrentUser();
-        mPessoa = new Pessoa();
-        mPessoa.setPrimeiroNome("Teste Binding");
+        mPerson = new Person();
+        mPersonService = PersonService.getInstance(this, super.getActivity());
+        mPersonService.searchPersonByUser(mUser);
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         FragmentPerfilBinding dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_perfil, container, false);
 
-        dataBinding.setBack(this);
-        dataBinding.setPessoa(mPessoa);
+        dataBinding.setFragment(this);
+        dataBinding.setPerson(mPerson);
 
         return dataBinding.getRoot();
     }
@@ -91,19 +94,19 @@ public class PerfilFragment extends Fragment {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        mPersonService.savePersonForUser(mPerson, mUser);
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    private void preenchePerfil(){
-        mUser.getEmail();
-        mUser.getDisplayName();
-        mUser.getPhotoUrl();
-        mUser.getPhoneNumber();
+        mPersonService = null;
     }
 
     public void onPrintPressed(View view) {
-        Log.d("PERFIL", mPessoa.getPrimeiroNome());
+        Log.d("PERFIL", mPerson.getNome());
     }
 }

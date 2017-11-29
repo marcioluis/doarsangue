@@ -160,11 +160,6 @@ public class MainActivity extends AppCompatActivity implements OnSolicitacaoInte
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
-        Log.d(TAG, "onClickPerfil");
-    }
-
-    @Override
     public void onClickSolicitacaoItem(Solicitacao solicitacao) {
         Log.d(TAG, "onClickSolicitacaoItem: " +solicitacao.toString());
 

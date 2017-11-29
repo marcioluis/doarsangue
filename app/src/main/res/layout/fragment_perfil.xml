@@ -2,11 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="pessoa"
-            type="br.com.gearsoft.doarsangue.domain.Pessoa" />
+            name="person"
+            type="br.com.gearsoft.doarsangue.domain.Person" />
 
         <variable
-            name="back"
+            name="fragment"
             type="br.com.gearsoft.doarsangue.fragments.PerfilFragment" />
     </data>
     <LinearLayout
@@ -18,7 +18,7 @@
         <Button
             android:layout_width="226dp"
             android:layout_height="108dp"
-            android:onClick="@{back::onPrintPressed}"
+            android:onClick="@{fragment::onPrintPressed}"
             android:text="Do Log" />
 
         <EditText
@@ -27,12 +27,12 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="@={pessoa.primeiroNome}" />
+            android:text="@={person.nome}" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@={pessoa.primeiroNome}"
+            android:text="@={person.nome}"
             tools:text="Marcio Teste Binding"/>
 
     </LinearLayout>
