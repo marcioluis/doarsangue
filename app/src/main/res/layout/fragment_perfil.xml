@@ -1,4 +1,5 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
@@ -9,31 +10,55 @@
             name="fragment"
             type="br.com.gearsoft.doarsangue.fragments.PerfilFragment" />
     </data>
-    <LinearLayout
-        tools:context="br.com.gearsoft.doarsangue.fragments.PerfilFragment"
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" >
-
-        <Button
-            android:layout_width="226dp"
-            android:layout_height="108dp"
-            android:onClick="@{fragment::onPrintPressed}"
-            android:text="Do Log" />
-
-        <EditText
-            android:id="@+id/editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="@={person.nome}" />
+        tools:context="br.com.gearsoft.doarsangue.fragments.PerfilFragment">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@={person.nome}"
-            tools:text="Marcio Teste Binding"/>
+            android:id="@+id/lbNome"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:labelFor="@+id/txtNome"
+            android:text="@string/label_nome"
+            app:layout_constraintBaseline_toBaselineOf="@+id/txtNome"
+            app:layout_constraintLeft_toRightOf="@id/lblBarrier"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="@string/label_nome" />
 
-    </LinearLayout>
+        <EditText
+            android:id="@+id/txtNome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:inputType="textPersonName"
+            android:text="@={person.nome}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/lblBarrier"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.constraint.Barrier
+            android:id="@+id/lblBarrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="right"
+            app:constraint_referenced_ids="lbNome"
+            tools:layout_editor_absoluteX="16dp" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:onClick="@{fragment::onPrintPressed}"
+            android:text="Faz nada"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
 </layout>
